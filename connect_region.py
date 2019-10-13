@@ -16,6 +16,8 @@ new_img = np.zeros(shape=(row, column))
 matrix = np.zeros(shape=(row, column))
 vetor = []
 cor = 100
+listaCores = []
+listaCores.append(cor)
 
 print(new_img)
 
@@ -97,8 +99,18 @@ for linha in range(row):
                 if matrix[linha, coluna] == 0:
                     aumento_regiao(linha, coluna, cor)
                     cor = cor + 50
+                    listaCores.append(cor)
 
+# Colorizing os pixels
+output_img = np.zeros((row, column, 3), int)
+labelColor = {0: (0, 0, 0)}
+for linha in range(row):
+    for coluna in range(column):
+        label = new_img[linha, coluna]
+        if label in listaCores:
+            labelColor[label] = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
+            output_img[linha, coluna, :] = labelColor[label]
 
 
 cv2.imwrite('trabalho_modificada.png', new_img)
